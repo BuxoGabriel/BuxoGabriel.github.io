@@ -3,7 +3,7 @@
 let activeStage = "start";
 let stages = {};
 let players = []; // make it later so that there can be more players
-let g = 1; //1.5 gravity is good
+let g = 0.0001; // gravity is good
 let ch = 0.1; //0.1 character height is good
 let p1;
 let p2;
@@ -37,8 +37,8 @@ function setup() {
 
     stages.stage1 = new Stage("red", [
         new Platform(0.5, 0.99, 1, 0.02),
-        new Platform(0.2, 0.6, 0.3, 0.03),
-        new Platform(0.8, 0.6, 0.3, 0.03)
+        new Platform(0.2, 0.65, 0.3, 0.03),
+        new Platform(0.8, 0.65, 0.3, 0.03)
         ]);
 
     stages.stage2 = new Stage("blue", [

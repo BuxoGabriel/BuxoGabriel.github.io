@@ -73,7 +73,7 @@ class Character {
 
     //happens every frame and moves character down if its feet are not touching the top of a platform
     gravity() {
-        if(!this.onGround()) this.y_vel += 0.1 * g;
+        if(!this.onGround()) this.y_vel += g * windowHeight;
         else this.y_vel = 0;//y is inverted so adding to y makes it move downwords
     }
 

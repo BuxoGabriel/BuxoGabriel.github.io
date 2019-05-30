@@ -83,7 +83,8 @@ class Character {
             this.shieldOn = true;
             fill(255, 192, 203, 127);
             noStroke();
-            this.ashield = circle(this.x, (this.y - (this.height)*(1/2)), this.shieldr);
+            circle(this.x, (this.y - (this.height)*(1/2)), this.shieldr);
+            stroke(0);
             }
         if(this.shieldOn === true && this.shieldr !== 0) {
             this.shieldr -= 0.25;
@@ -172,22 +173,16 @@ class Hadouken extends SpecialMoves {
         let hit = false;
         players.forEach((player) => {
             if(player != this.player) {
-                if (player.shieldOn) {
-                    console.log("ON");
-                    if((this.x + (this.player.height / 6) && (this.y + (this.player.height))) >= ((this.player.height / 6) + this.shieldr)) {
-                        player.shieldr -= 20;
-                    }
-                }
                 if((this.x + this.player.height / 6 >= player.x - 2 / 9 * player.height) && (this.x - this.player.height / 6 <= player.x + 2 / 9 * player.height) && (this.y - this.player.height / 6 <= player.y) && (this.y + 2 / 9 * this.player.height >= player.y - player.height)) {
-                    //if(player.shieldOn) player.shieldr -= 20;
-                    //else {
-                    player.chealth -= 20;
-                    //}
+                    if(player.shieldOn) player.shieldr -= 20;
+                    else {
+                        player.chealth -= 20;
+                    }
                     hit = true;
                 }
             }
         });
-        //console.log(hit);
+        console.log(hit);
         return hit;
     }
 }

@@ -3,7 +3,7 @@
 let activeStage = "start";
 let stages = {};
 let players = []; // make it later so that there can be more players
-let g = 0.0001; // gravity is good
+let g = 0.0003; // gravity is good
 let ch = 0.1; //0.1 character height is good
 let p1;
 let p2;
@@ -107,7 +107,7 @@ function draw() {
             p1.x_vel = 5;
             p1.facing = 1;
         }
-        if(keyIsDown(87) && p1.onGround()) p1.y_vel = -8; // W, p1 jump
+        if(keyIsDown(87) && p1.onGround()) p1.y_vel = g * height * -50; // W, p1 jump
         if(keyIsDown(69)) p1.blast(); // E, p1 blast
         if(keyIsDown(81) && !p1.shieldCool) p1.shield(); // Q, p1 shield
 
@@ -121,7 +121,7 @@ function draw() {
             p2.x_vel = 5;
             p2.facing = 1;
         }
-        if(keyIsDown(73) && p2.onGround()) p2.y_vel = -8; // I, p2 jump
+        if(keyIsDown(73) && p2.onGround()) p2.y_vel =  g * height * -50; // I, p2 jump
         if(keyIsDown(85)) p2.blast(); // U, p2 blast
         if(keyIsDown(79) && !p2.shieldCool) p2.shield(); // O, p2 shield
 

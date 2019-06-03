@@ -36,38 +36,38 @@ function setup() {
     stages.instructions = instructions;
 
     stages.stage1 = new Stage("red", [
-        new Platform(0.5, 0.99, 1, 0.02),
-        new Platform(0.2, 0.65, 0.3, 0.03),
-        new Platform(0.8, 0.65, 0.3, 0.03)
+        new Platform(0.5, 0.99, 1, 0.02, [false]),
+        new Platform(0.2, 0.65, 0.3, 0.03, [false]),
+        new Platform(0.8, 0.65, 0.3, 0.03, [false])
         ]);
 
     stages.stage2 = new Stage("blue", [
-        new Platform(0.5, 0.99, 1, 0.02),
-        new Platform(0.5, 0.6, 0.3, 0.03),
-        new Platform(0.1, 0.6, 0.3, 0.03),
-        new Platform(0.9, 0.6, 0.3, 0.03)
+        new Platform(0.5, 0.99, 1, 0.02, [false]),
+        new Platform(0.5, 0.6, 0.3, 0.03, [false]),
+        new Platform(0.1, 0.6, 0.3, 0.03, [false]),
+        new Platform(0.9, 0.6, 0.3, 0.03, [false])
         ]);
 
     stages.stage3 = new Stage("orange", [
-        new Platform(0.5, 0.99, 1, 0.02),
-        new Platform(0.5, 0.5, 0.2, 0.02),
-        new Platform(0.9, 0.8, 0.3, 0.03),
-        new Platform(0.1, 0.2, 0.3, 0.03)
+        new Platform(0.5, 0.99, 1, 0.02, [false]),
+        new Platform(0.5, 0.5, 0.2, 0.02, [false]),
+        new Platform(0.9, 0.8, 0.3, 0.03, [false]),
+        new Platform(0.1, 0.2, 0.3, 0.03, [false])
         ]);
 
     stages.stage4 = new Stage("green", [
-        new Platform(0.5, 0.99, 1, 0.02),
-        new Platform(0.1, 0.3, 0.2, 0.02),
-        new Platform(0.9, 0.7, 0.2, 0.02)
-        ]/*, true, [1, 2]*/);
+        new Platform(0.5, 0.99, 1, 0.02, [false]),
+        new Platform(0.1, 0.3, 0.2, 0.02, [true, 2, [0, 1]]),
+        new Platform(0.9, 0.7, 0.2, 0.02, [true, -2, [0, 1]])
+        ]);
 
 
     stages.stage5 = new Stage("yellow", [
-        new Platform(0.5, 0.99, 1, 0.02),
-        new Platform(0.5, 0.5, 0.1, 0.02),
-        new Platform(0.1, 0.3, 0.1, 0.02),
-        new Platform(0.9, 0.7, 0.1, 0.02)
-        ]/*, true, [2, 3, 4]*/);
+        new Platform(0.5, 0.99, 1, 0.02, [false]),
+        new Platform(0.5, 0.5, 0.1, 0.02, [true, 0.5, [0, 1]]),
+        new Platform(0.1, 0.3, 0.1, 0.02, [true, 2, [0, 1]]),
+        new Platform(0.9, 0.7, 0.1, 0.02, [true, -2, [0, 1]])
+        ]);
     stages.win = {
         draw() {
             let winner;
@@ -93,7 +93,6 @@ function setup() {
 function draw() {
     background('black');
     stages[activeStage].draw();
-    //stages[activeStage].moving();
     if(activeStage.startsWith("stage")) {
         p1.shieldOn = false;
         p2.shieldOn = false;
@@ -124,8 +123,13 @@ function draw() {
         if(keyIsDown(73) && p2.onGround()) p2.y_vel =  g * height * -50; // I, p2 jump
         if(keyIsDown(85)) p2.blast(); // U, p2 blast
         if(keyIsDown(79) && !p2.shieldCool) p2.shield(); // O, p2 shield
+        if(p1.x <= 1 / 9 * p1.height) p1.x = 1 / 9 * p1.height;
+        else if (p1.x >= width - 1 / 9 * p1.height) p1.x = width - 1 / 9 * p1.height;
 
-        //processies for both chars
+        if(p2.x <= 1 / 9 * p2.height) p2.x = 1 / 9 * p2.height;
+        else if (p2.x >= width - 1 / 9 * p2.height) p2.x = width - 1 / 9 * p2.height;
+
+        //processes for both chars
         players.forEach((char) => {
             char.move();
             char.draw();

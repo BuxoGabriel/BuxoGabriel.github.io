@@ -2,38 +2,32 @@
 //classes definition
 //platform class takes platx, y, length, and width as percentages of the screen size
 class Platform {
-    constructor(platformX, platformY, platformLength, platformWidth) {
+    constructor(platformX, platformY, platformLength, platformWidth, movesStartsBounds) {
         this.x = platformX * width;
         this.y = platformY * height;
         this.len = platformLength * width;
         this.height = platformWidth * height;
+        this.movesStartsBounds = movesStartsBounds;
     }
 }
 
 //stage takes an array of platforms
 class Stage {
-    constructor(color, platforms/*, moves = false, platmoves = []*/) {
+    constructor(color, platforms) {
         this.color = color;
         this.platforms = platforms;
-        /*this.moves = moves;
-        this.platmoves = platmoves;*/
         }
     draw() {
         rectMode(CENTER);
         for(let plat of this.platforms) {
             fill(this.color);
             rect(plat.x, plat.y, plat.len, plat.height);
-        }
-    }
-    /*moving() {
-        if (this.moves === true) {
-            for (let i = 0; i < this.platforms; i++) {
-                for(let motion of this.platmoves) {
-                    this.platforms[motion].x++;
-                }
+            if(plat.movesStartsBounds[0]) {
+                if(plat.x <= plat.movesStartsBounds[2][0] * width || plat.x >= plat.movesStartsBounds[2][1] * width) plat.movesStartsBounds[1] *= -1;
+                plat.x += (g * width * 10 * plat.movesStartsBounds[1]);
             }
         }
-    }*/
+    }
 }
 
 //general character class takes no inputs and should not be used as a character should just be used as a foundation for others
@@ -84,7 +78,6 @@ class Character {
             fill(255, 192, 203, 127);
             noStroke();
             circle(this.x, (this.y - (this.height)*(1/2)), this.shieldr);
-            stroke(0);
             }
         if(this.shieldOn === true && this.shieldr !== 0) {
             this.shieldr -= 0.25;
@@ -96,7 +89,7 @@ class Character {
             setTimeout(() => {
                 this.shieldr = 100;
                 this.shieldCool = false;
-                console.log("shield cooled");
+                console.log("Shield cooled");
             }, 2000);
         }
     }
@@ -111,11 +104,11 @@ class Fighter1 extends Character {
     draw() {
         rectMode(CENTER);
         fill(242, 205, 130);
-        this.head = circle(this.x, this.y - 8 / 9 * this.height, 1 / 9 * this.height);//head
+        circle(this.x, this.y - 8 / 9 * this.height, 1 / 9 * this.height);//head
         fill(85, 111, 204);
-        this.torso = rect(this.x, this.y - 2 / 3 * this.height, 2 / 9 * this.height, 4 / 9 * this.height);//torso
+        rect(this.x, this.y - 2 / 3 * this.height, 2 / 9 * this.height, 4 / 9 * this.height);//torso
         fill(186, 56, 20);
-        this.legs = rect(this.x, this.y - 2 / 9 * this.height, 2 / 9 * this.height, 4 / 9 * this.height);//legs
+        rect(this.x, this.y - 2 / 9 * this.height, 2 / 9 * this.height, 4 / 9 * this.height);//legs
     }
 
     punch() {
@@ -140,11 +133,11 @@ class Fighter2 extends Character {
     draw() {
         rectMode(CENTER);
         fill(124, 86, 8);
-        this.head = circle(this.x, this.y - 8 / 9 * this.height, 1 / 9 * this.height);//head
+        circle(this.x, this.y - 8 / 9 * this.height, 1 / 9 * this.height);//head
         fill(255, 189, 10);
-        this.torso = rect(this.x, this.y - 2 / 3 * this.height, 2 / 9 * this.height, 4 / 9 * this.height);//torso
+        rect(this.x, this.y - 2 / 3 * this.height, 2 / 9 * this.height, 4 / 9 * this.height);//torso
         fill(188, 4, 216);
-        this.legs = rect(this.x, this.y - 2 / 9 * this.height, 2 / 9 * this.height, 4 / 9 * this.height);//legs
+        rect(this.x, this.y - 2 / 9 * this.height, 2 / 9 * this.height, 4 / 9 * this.height);//legs
     }
 }
 
@@ -173,16 +166,18 @@ class Hadouken extends SpecialMoves {
         let hit = false;
         players.forEach((player) => {
             if(player != this.player) {
-                if((this.x + this.player.height / 6 >= player.x - 2 / 9 * player.height) && (this.x - this.player.height / 6 <= player.x + 2 / 9 * player.height) && (this.y - this.player.height / 6 <= player.y) && (this.y + 2 / 9 * this.player.height >= player.y - player.height)) {
-                    if(player.shieldOn) player.shieldr -= 20;
-                    else {
-                        player.chealth -= 20;
+                if (player.shieldOn) {
+                    if (dist(this.x, this.y, player.x, (player.y - (player.height*0.5))) <= ((player.height/6) + player.shieldr)) {
+                        player.shieldr -=20
+                        hit = true;
                     }
+                }
+                else if((this.x + this.player.height / 6 >= player.x - 2 / 9 * player.height) && (this.x - this.player.height / 6 <= player.x + 2 / 9 * player.height) && (this.y - this.player.height / 6 <= player.y) && (this.y + 2 / 9 * this.player.height >= player.y - player.height)) {
+                    player.chealth -= 20;
                     hit = true;
                 }
             }
         });
-        console.log(hit);
         return hit;
     }
 }

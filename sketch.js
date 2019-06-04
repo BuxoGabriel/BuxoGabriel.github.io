@@ -1,3 +1,4 @@
+"use strict";
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Global Variables
 let activeStage = "start";
@@ -63,15 +64,15 @@ function setup() {
 
     stages.stage4 = new Stage("green", [
         new Platform(0.5, 0.99, 1, 0.02, [false]),
-        new Platform(0.1, 0.5, 0.2, 0.02, [true, 1, [0, 1]]),
-        new Platform(0.9, 0.7, 0.2, 0.02, [true, -1, [0, 1]])
+        new Platform(0.11, 0.5, 0.2, 0.02, [true, 1, [0.1, 0.9]]),
+        new Platform(0.89, 0.7, 0.2, 0.02, [true, -1, [0.1, 0.9]])
         ]);
 
     stages.stage5 = new Stage("purple", [
         new Platform(0.5, 0.99, 1, 0.02, [false]),
-        new Platform(0.5, 0.5, 0.1, 0.02, [true, 0.5, [0, 1]]),
-        new Platform(0.1, 0.3, 0.1, 0.02, [true, 1, [0, 1]]),
-        new Platform(0.9, 0.7, 0.1, 0.02, [true, -1, [0, 1]])
+        new Platform(0.5, 0.5, 0.1, 0.02, [true, 0.5, [0.05, 0.95]]),
+        new Platform(0.1, 0.3, 0.1, 0.02, [true, 1, [0.05, 0.95]]),
+        new Platform(0.9, 0.7, 0.1, 0.02, [true, -1, [0.05, 0.95]])
         ]);
 
     stages.win = {

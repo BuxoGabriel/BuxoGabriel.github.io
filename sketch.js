@@ -146,7 +146,7 @@ function draw() {
             else if (char.x >= width - 1 / 9 * char.height) char.x = width - 1 / 9 * char.height;
 
             if (char.y>= height){
-                char.y = height - char.height;
+                char.y = height - char.height / 3;
                 char.y_vel = 0;
             }
 

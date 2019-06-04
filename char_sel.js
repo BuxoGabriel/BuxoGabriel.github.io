@@ -1,6 +1,7 @@
+"use strict";
 const chars = 2;
 let characters = ["Ren", "Kyu"];
-let colours = ["red", "blue"]
+let colours = ["red", "blue"];
 let char = {
  draw() {
         background(0);
@@ -20,10 +21,10 @@ let char = {
         textStyle(BOLD);
         rectMode(CENTER);
         for (let i = 0; i < chars; i++) {
-            fill(colours[i])
+            fill(colours[i]);
             rect(width / 2, height*0.45 + height / (5 * 1.5) * i, width / 4, height / (5 * 2));
             fill("white");
             text(characters[i], width / 2, height*0.45 + height / (5 * 1.5) * i);
         }
     }
-}
+};

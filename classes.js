@@ -158,7 +158,7 @@ class SpecialMoves {
             if (player != this.player) {
                 if (player.shieldOn) {
                     if (dist(this.x, this.y, player.x, (player.y - (player.height*0.5))) <= ((player.height/6) + player.shieldr)) {
-                        player.shieldr -=20
+                        player.shieldr -= 20;
                         hit = true;
                     }
                 } else if ((this.x + this.player.height / 6 >= player.x - 2 / 9 * player.height) && (this.x - this.player.height / 6 <= player.x + 2 / 9 * player.height) && (this.y - this.player.height / 6 <= player.y) && (this.y + 2 / 9 * this.player.height >= player.y - player.height)) {

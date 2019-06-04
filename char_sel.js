@@ -1,4 +1,3 @@
-"use strict";
 const chars = 2;
 let characters = ["Ren", "Kyu"];
 let colours = ["red", "blue"];

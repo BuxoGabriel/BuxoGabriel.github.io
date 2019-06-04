@@ -1,4 +1,3 @@
-"use strict";
 let levels = 5;
 let colors = ["red", "blue", "orange", "green", "purple"];
 let select = {

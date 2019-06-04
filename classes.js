@@ -19,11 +19,11 @@ class Stage {
         }
     draw() {
         rectMode(CENTER);
-        for(let plat of this.platforms) {
+        for (let plat of this.platforms) {
             fill(this.color);
             rect(plat.x, plat.y, plat.len, plat.height);
-            if(plat.movesStartsBounds[0]) {
-                if(plat.x <= plat.movesStartsBounds[2][0] * width || plat.x >= plat.movesStartsBounds[2][1] * width) plat.movesStartsBounds[1] *= -1;
+            if (plat.movesStartsBounds[0]) {
+                if (plat.x <= plat.movesStartsBounds[2][0] * width || plat.x >= plat.movesStartsBounds[2][1] * width) plat.movesStartsBounds[1] *= -1;
                 plat.x += (g * width * 10 * plat.movesStartsBounds[1]);
             }
         }
@@ -54,9 +54,9 @@ class Character {
     }
 
     onGround() {
-        if(activeStage.startsWith("stage")) {
-            for(let plat of stages[activeStage].platforms) {
-                if((this.x >= plat.x - plat.len / 2) && (this.x <= plat.x + plat.len / 2) && (this.y <= plat.y + plat.height / 2) && (this.y >= plat.y - plat.height / 2)) {
+        if (activeStage.startsWith("stage")) {
+            for (let plat of stages[activeStage].platforms) {
+                if ((this.x >= plat.x - plat.len / 2) && (this.x <= plat.x + plat.len / 2) && (this.y <= plat.y + plat.height / 2) && (this.y >= plat.y - plat.height / 2)) {
                     this.y = plat.y - plat.height / 2;
                     return true;
                 }
@@ -67,29 +67,28 @@ class Character {
 
     //happens every frame and moves character down if its feet are not touching the top of a platform
     gravity() {
-        if(!this.onGround()) this.y_vel += g * windowHeight;
+        if (!this.onGround()) this.y_vel += g * windowHeight;
         else this.y_vel = 0;//y is inverted so adding to y makes it move downwords
     }
 
     //draw function that creates a semi-transparent pink circle originating in the middle of the character
     shield() {
-        if(this.shieldCool === false) {
+        if (this.shieldCool === false) {
             this.shieldOn = true;
             fill(255, 192, 203, 127);
             noStroke();
             circle(this.x, (this.y - (this.height)*(1/2)), this.shieldr);
             }
-        if(this.shieldOn === true && this.shieldr !== 0) {
+        if (this.shieldOn === true && this.shieldr !== 0) {
             this.shieldr -= 0.25;
         }
-        if(this.shieldr <= 0) {
+        if (this.shieldr <= 0) {
             this.shieldr = 0;
             this.shieldOn = false;
             this.shieldCool = true;
             setTimeout(() => {
                 this.shieldr = 100;
                 this.shieldCool = false;
-                console.log("Shield cooled");
             }, 2000);
         }
     }
@@ -111,14 +110,10 @@ class Fighter1 extends Character {
         rect(this.x, this.y - 2 / 9 * this.height, 2 / 9 * this.height, 4 / 9 * this.height);//legs
     }
 
-    punch() {
-
-    }
-
     blast() {
-        if(this.onCD === false) {
+        if (this.onCD === false) {
             this.onCD = true;
-            this.specials.push(new Hadouken(this));
+            this.specials.push(new Bludouken(this));
             setTimeout(() => this.onCD = false, 500);
         }
     }
@@ -139,6 +134,14 @@ class Fighter2 extends Character {
         fill(188, 4, 216);
         rect(this.x, this.y - 2 / 9 * this.height, 2 / 9 * this.height, 4 / 9 * this.height);//legs
     }
+
+    blast() {
+        if (this.onCD === false) {
+            this.onCD = true;
+            this.specials.push(new Redouken(this));
+            setTimeout(() => this.onCD = false, 500);
+        }
+    }
 }
 
 class SpecialMoves {
@@ -148,31 +151,17 @@ class SpecialMoves {
         this.y = player.y;
         this.x_vel;
     }
-}
 
-class Hadouken extends SpecialMoves {
-    constructor(player) {
-        super(player);
-        this.x_vel = 10 * player.facing;
-    }
-    draw() {
-        imageMode(CENTER);
-        rectMode(CENTER);
-        this.x += this.x_vel;
-        fill("blue");
-        circle(this.x, this.y - this.player.height / 2, this.player.height / 6);
-    }
     hits() {
         let hit = false;
         players.forEach((player) => {
-            if(player != this.player) {
+            if (player != this.player) {
                 if (player.shieldOn) {
                     if (dist(this.x, this.y, player.x, (player.y - (player.height*0.5))) <= ((player.height/6) + player.shieldr)) {
                         player.shieldr -=20
                         hit = true;
                     }
-                }
-                else if((this.x + this.player.height / 6 >= player.x - 2 / 9 * player.height) && (this.x - this.player.height / 6 <= player.x + 2 / 9 * player.height) && (this.y - this.player.height / 6 <= player.y) && (this.y + 2 / 9 * this.player.height >= player.y - player.height)) {
+                } else if ((this.x + this.player.height / 6 >= player.x - 2 / 9 * player.height) && (this.x - this.player.height / 6 <= player.x + 2 / 9 * player.height) && (this.y - this.player.height / 6 <= player.y) && (this.y + 2 / 9 * this.player.height >= player.y - player.height)) {
                     player.chealth -= 20;
                     hit = true;
                 }
@@ -181,3 +170,29 @@ class Hadouken extends SpecialMoves {
         return hit;
     }
 }
+
+class Bludouken extends SpecialMoves {
+    constructor(player) {
+        super(player);
+        this.x_vel = 10 * player.facing;
+    }
+    draw() {
+        this.x += this.x_vel;
+        fill("blue");
+        circle(this.x, this.y - this.player.height / 2, this.player.height / 6);
+    }
+}
+
+class Redouken extends SpecialMoves {
+    constructor(player) {
+        super(player);
+        this.x_vel = 10 * player.facing;
+    }
+    draw() {
+        rectMode(CENTER);
+        this.x += this.x_vel;
+        fill("red");
+        square(this.x, this.y - this.player.height / 2, this.player.height / 3);
+    }
+}
+

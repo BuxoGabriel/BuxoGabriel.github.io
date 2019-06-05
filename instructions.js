@@ -2,8 +2,8 @@ let tleft = ["Q", "W", "E"];
 let ldown = ["A", "", "D"];
 let tright = ["U", "I", "O"];
 let rdown = ["J", "", "L"];
-let p1k = ["Q: Shield", "W: Jump", "E: Special Power", "A: Move to the Right", "D: Move to the Left"];
-let p2k = ["O: Shield", "I: Jump", "U: Special Power", "L: Move to the Right", "J: Move to the Left"];
+let p1k = ["Q: Shield", "W: Jump", "E: Special Power", "A: Move to the Left", "D: Move to the Right"];
+let p2k = ["O: Shield", "I: Jump", "U: Special Power", "J: Move to the Left", "L: Move to the Right"];
 let instructions =  {
     draw() {
         textStyle(NORMAL);

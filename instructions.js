@@ -1,4 +1,3 @@
-"use strict";
 let tleft = ["Q", "W", "E"];
 let ldown = ["A", "", "D"];
 let tright = ["U", "I", "O"];

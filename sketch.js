@@ -192,17 +192,16 @@ function mousePressed() {
     } else if (activeStage === "char" && player === 1) {
         for (let i = 0; i < chars; i++) {
             if (mouseX >= width*(3/8) && mouseX <= width*(5/8) && mouseY >= height*0.45 + (height / (5 * 1.5) * i) - height / (5 * 4) && mouseY <= height*0.45 + (height / (5 * 1.5) * i) + height / (5 * 4)) {
-                if (player === 1 && i === 0) {
+                if (i === 0) {
                     players.push(new Fighter1(0.2, 0.3, ch, 1));
                     p1 = players[0];
-                } else if (player === 1 && i === 1) {
+                } else if (i === 1) {
                     players.push(new Fighter2(0.2, 0.3, ch, 1));
                     p1 = players[0];
                 }
+                player++;
             }
         }
-        activeStage = "char";
-        player++;
 
     } else if (activeStage === "char" && player === 2) {
         for (let i = 0; i < chars; i++) {
@@ -214,9 +213,9 @@ function mousePressed() {
                     players.push(new Fighter2(0.8, 0.3, ch, -1));
                     p2 = players[1];
                 }
+                activeStage = "select";
             }
         }
-        activeStage = "select";
 
     } else if (activeStage === "select") {
         for (let i = 0; i < levels; i++) {

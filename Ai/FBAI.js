@@ -359,7 +359,7 @@ function setup() {
 function draw() {
     if(score > highscore) highscore = score
     document.querySelector("#gen").innerHTML = "Generation: " + generations
-    document.querySelector("#alive").innerHTML = "Birds Alive: " + (birdcount - dead)
+    document.querySelector("#alive").innerHTML = "Tadpoles Alive: " + (birdcount - dead)
     document.querySelector("#highscore").innerHTML = "Highscore: " + (highscore)
     document.querySelector("#score").innerHTML = "Score: " + (score)
     document.querySelector("#speed").innerHTML = watchSpeed + 'x'

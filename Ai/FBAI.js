@@ -5,9 +5,9 @@ const pipeGap = dispSize / 5
 const gravity = 0.1
 const maxVelocity = 16;
 const pipeSpeed = 2
-const birdsize = 20
-let birdcount = 500
-let birds = []
+const tadpolesize = 20
+let tadpolecount = 500
+let tadpoles = []
 let pipes = []
 let generations = 1
 let dead = 0
@@ -20,38 +20,39 @@ let highscore = 0
 let backgroundx = 0
 let backgroundImage
 let seaweed
-let tadpole
+let tadpoleImage
 
 function sigmoid(x) {
     return 1/(Math.exp(-x) + 1)
 }
 
-function nextGen() {                                    //sort birds by fitness, replace last half with copies of the first half, mutate all
-    birds.forEach((bird) =>{                    //CURRENT VERSION IS 1 PARENT SPLIT MUTATION. MUTATION CHANCE IS INVERSLY PREPORTIONAL WITH HOW FIT THE TADPOLE IS RELATIVE TO ITS GENERATION
-        avgfit += bird.fitness
+function nextGen() {                                    //sort tadpoles by fitness, replace last half with copies of the first half, mutate all
+    tadpoles.forEach((tadpole) =>{                    //CURRENT VERSION IS 1 PARENT SPLIT MUTATION. MUTATION CHANCE IS INVERSLY PREPORTIONAL WITH HOW FIT THE TADPOLE IS RELATIVE TO ITS GENERATION
+        avgfit += tadpole.fitness
     })
-    avgfit /= birds.length
-    birds.splice(0, birdcount / 2)
-    for(let i = 0; i < birdcount / 2; i++) {
-        birds.push(new Bird())
-        birds[birdcount / 2 + i].birdbrain = birds[i].birdbrain.clone()
-        birds[birdcount / 2 + i].fitness = birds[i].fitness
-        birds[i].birdbrain.mutate(mutation_rate / (birds[i].fitness / avgfit))
-        birds[birdcount / 2 + i].birdbrain.mutate(mutation_rate / (birds[birdcount / 2 + i].fitness / avgfit))
-        birds[i].y = height / 2
-        birds[birdcount / 2 + i].y = height / 2
-        birds[i].dead = false
-        birds[i].birdbrain.fitness = 0
-        birds[birdcount / 2 + i].fitness = 0
+    avgfit /= tadpoles.length
+    tadpoles.splice(0, tadpolecount / 2)
+    for(let i = 0; i < tadpolecount / 2; i++) {
+        tadpoles.push(new Tadpole())
+        tadpoles[tadpolecount / 2 + i].tadpolebrain = tadpoles[i].tadpolebrain.clone()
+        tadpoles[tadpolecount / 2 + i].fitness = tadpoles[i].fitness
+        tadpoles[tadpolecount / 2 + i].color = tadpoles[i].color
+        tadpoles[i].tadpolebrain.mutate(mutation_rate / (tadpoles[i].fitness / avgfit))
+        tadpoles[tadpolecount / 2 + i].tadpolebrain.mutate(mutation_rate / (tadpoles[tadpolecount / 2 + i].fitness / avgfit))
+        tadpoles[i].y = height / 2
+        tadpoles[tadpolecount / 2 + i].y = height / 2
+        tadpoles[i].dead = false
+        tadpoles[i].tadpolebrain.fitness = 0
+        tadpoles[tadpolecount / 2 + i].fitness = 0
     }
-    // birds.forEach((bird) =>{  second method implement eventually !!2 PARENTS!!
-    //     avgfit += bird.fitness
+    // tadpoles.forEach((tadpole) =>{  second method implement eventually !!2 PARENTS!!
+    //     avgfit += tadpole.fitness
     // })
     // let a = []
-    // for (let i = 0; i < birdcount; i++) {
-    //     a.push(new Bird())
-    //     a[i].birdbrain.weights.forEach((Mat) => {
-    //         birds.forEach((bird) => {
+    // for (let i = 0; i < tadpolecount; i++) {
+    //     a.push(new Tadpole())
+    //     a[i].tadpolebrain.weights.forEach((Mat) => {
+    //         tadpoles.forEach((tadpole) => {
                 
     //         })
     //     })
@@ -69,7 +70,7 @@ function nextGen() {                                    //sort birds by fitness,
 class rngPipe {
     constructor(x) {
         this.x = x
-        this.height = random(height / 4, height * 2 / 3 - pipeGap)
+        this.height = random(height / 4, height * 3 / 4 - pipeGap)
         //console.log("constructed new rng pipe at position " + this.x + " with height of " + this.height)
     }
 
@@ -218,7 +219,7 @@ class Matrix {
     }
 }
 
-// The brains of the bird keeping it seperate from bird code because it is very complex and in my mind seperate from the rest of the code
+// The brains of the tadpole keeping it seperate from tadpole code because it is very complex and in my mind seperate from the rest of the code
 class NeuralNetwork {
     constructor(inputs, outputs, hiddens) {//should be able to handle any number of hidden layers||||HIDDENS IS AN ARRAY WHERE EACH VALUE IS THE NUMBER OF NODES THAT HIDDEN LAYER SHOULD HAVE
         //creates variables to keep track of how many there are of everything
@@ -230,7 +231,7 @@ class NeuralNetwork {
         this.hls = []
         this.inputs
         this.outputs            
-        //console.log(`Initializing new bird with a brain with ${this.inputCount} inputs, ${this.hiddens.length} hidden layers, and ${this.outputCount} outputs`)
+        //console.log(`Initializing new Tadpole with a brain with ${this.inputCount} inputs, ${this.hiddens.length} hidden layers, and ${this.outputCount} outputs`)
 
         for(let i = 0; i < this.hiddens.length; i++) {
             this.biases.push(new Matrix(this.hiddens[i], 1))
@@ -251,7 +252,7 @@ class NeuralNetwork {
         })
 
     }
-    //confidence on whether or not the bird should jump every frame
+    //confidence on whether or not the tadpole should jump every frame
     guess(inputs) {
         if (inputs.length !== this.inputCount) {
             return console.error("you must input only as many inputs as there are input nodes")
@@ -299,15 +300,15 @@ class NeuralNetwork {
     }
 }
 
-// Bird Class. There will be hundreds of birds so it is easiest to make a class for them
-class Bird {
+// tadpole Class. There will be hundreds of tadpoles so it is easiest to make a class for them
+class Tadpole {
     constructor() {
         this.x = dispSize / 10
         this.y = height / 2
         this.y_vel = 0
         this.dtno                                              //distance to next obstacle 
         this.hono                                           //hight of next obstacle
-        this.birdbrain = new NeuralNetwork(4, 1, [4])
+        this.tadpolebrain = new NeuralNetwork(4, 1, [4])
         this.color = [random(255), random(255), random(255)]
         this.dead = false
         this.fitness = 0;
@@ -315,7 +316,7 @@ class Bird {
 
     show() {
         fill(this.color)
-        circle(this.x, this.y, birdsize)
+        circle(this.x, this.y, tadpolesize)
     }
 
     move() {
@@ -323,9 +324,9 @@ class Bird {
     }
     //collision detection
     touching(pipe) {
-        if(this.y + birdsize >= height || 
-        this.y - birdsize <= 0 || 
-        (this.x >= pipe.x - HpipeWidth && this.x <= pipe.x + HpipeWidth) && (this.y - birdsize <= pipe.height || this.y + birdsize >= pipe.height + pipeGap)) {
+        if(this.y + tadpolesize >= height || 
+        this.y - tadpolesize <= 0 || 
+        (this.x >= pipe.x - HpipeWidth && this.x <= pipe.x + HpipeWidth) && (this.y - tadpolesize <= pipe.height || this.y + tadpolesize >= pipe.height + pipeGap)) {
             return true
         }
     }
@@ -336,15 +337,15 @@ class Bird {
 
 //loads images for background, tadpoles, and seaweed
 function preload() {
-    tadpole = loadImage('tadpole.jpg')
+    tadpoleImage = loadImage('tadpole.jpg')
     backgroundImage = loadImage('background.jpg')
     seaweed = loadImage("seaweed.png")
 }
 
 function setup() {
     createCanvas(dispSize, dispSize)
-    for(let i = 0; i < birdcount; i++) {
-        birds.push(new Bird())
+    for(let i = 0; i < tadpolecount; i++) {
+        tadpoles.push(new Tadpole())
     }
     document.querySelector("#respawn").onclick = () => {nextGen(); return false}
     //document.querySelector("#changem").onsubmit = () => {mutation_rate = document.querySelector("#mut").value / 100; return false}
@@ -359,12 +360,12 @@ function setup() {
 function draw() {
     if(score > highscore) highscore = score
     document.querySelector("#gen").innerHTML = "Generation: " + generations
-    document.querySelector("#alive").innerHTML = "Tadpoles Alive: " + (birdcount - dead)
+    document.querySelector("#alive").innerHTML = "Tadpoles Alive: " + (tadpolecount - dead)
     document.querySelector("#highscore").innerHTML = "Highscore: " + (highscore)
     document.querySelector("#score").innerHTML = "Score: " + (score)
     document.querySelector("#speed").innerHTML = watchSpeed + 'x'
     for(let i = 0; i < watchSpeed; i++) {
-        if(dead == birdcount) {
+        if(dead == tadpolecount) {
             nextGen()
         }
 
@@ -378,30 +379,30 @@ function draw() {
             else pipe.x -= pipeSpeed
         })
 
-        birds.forEach((bird, index) => {
-            if(!bird.dead) {
-                bird.dtno = pipes[0].x
-                bird.hono = pipes[0].height
-                bird.y_vel += gravity
-                if(bird.y_vel < -maxVelocity) {
-                    bird.y_vel = -maxVelocity
+        tadpoles.forEach((tadpole, index) => {
+            if(!tadpole.dead) {
+                tadpole.dtno = pipes[0].x
+                tadpole.hono = pipes[0].height
+                tadpole.y_vel += gravity
+                if(tadpole.y_vel < -maxVelocity) {
+                    tadpole.y_vel = -maxVelocity
                 }
-                else if (bird.y_vel > maxVelocity) {
-                    bird.y_vel = maxVelocity
-                }
-
-                if(bird.birdbrain.guess([bird.y / dispSize, bird.y_vel / 16, bird.dtno / dispSize, bird.hono / (dispSize * 3 / 4)]) > 0.5) {
-                    bird.jump()
+                else if (tadpole.y_vel > maxVelocity) {
+                    tadpole.y_vel = maxVelocity
                 }
 
-                bird.move()
-                if(bird.touching(pipes[0])) {
-                    bird.dead = true
+                if(tadpole.tadpolebrain.guess([tadpole.y / dispSize, tadpole.y_vel / 16, tadpole.dtno / dispSize, tadpole.hono / (dispSize * 3 / 4)]) > 0.5) {
+                    tadpole.jump()
+                }
+
+                tadpole.move()
+                if(tadpole.touching(pipes[0])) {
+                    tadpole.dead = true
                     dead++
-                    let a = birds.splice(index, 1)
-                    birds.push(a[0])
+                    let a = tadpoles.splice(index, 1)
+                    tadpoles.push(a[0])
                 }
-                else bird.fitness++
+                else tadpole.fitness++
             }
         })
         backgroundx--
@@ -411,5 +412,5 @@ function draw() {
     image(backgroundImage, backgroundx, 0)
     image(backgroundImage, dispSize + backgroundx, 0)
     pipes.forEach((pipe) => {pipe.show()})
-    birds.forEach((bird) => {if(!bird.dead) bird.show()})
+    tadpoles.forEach((tadpole) => {if(!tadpole.dead) tadpole.show()})
 }

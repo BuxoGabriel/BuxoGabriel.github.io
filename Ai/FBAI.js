@@ -53,7 +53,7 @@ function nextGen() {                                    //sort tadpoles by fitne
     //     a.push(new Tadpole())
     //     a[i].tadpolebrain.weights.forEach((Mat) => {
     //         tadpoles.forEach((tadpole) => {
-                
+
     //         })
     //     })
     // }
@@ -223,14 +223,14 @@ class Matrix {
 class NeuralNetwork {
     constructor(inputs, outputs, hiddens) {//should be able to handle any number of hidden layers||||HIDDENS IS AN ARRAY WHERE EACH VALUE IS THE NUMBER OF NODES THAT HIDDEN LAYER SHOULD HAVE
         //creates variables to keep track of how many there are of everything
-        this.inputCount = inputs       
+        this.inputCount = inputs
         this.outputCount = outputs
         this.hiddens = hiddens  //an array saying how many perceptrons are in each hidden layer alsso used to determin how many hidden layers there are
-        this.weights = []     
+        this.weights = []
         this.biases = []
         this.hls = []
         this.inputs
-        this.outputs            
+        this.outputs
         //console.log(`Initializing new Tadpole with a brain with ${this.inputCount} inputs, ${this.hiddens.length} hidden layers, and ${this.outputCount} outputs`)
 
         for(let i = 0; i < this.hiddens.length; i++) {
@@ -306,7 +306,7 @@ class Tadpole {
         this.x = dispSize / 10
         this.y = height / 2
         this.y_vel = 0
-        this.dtno                                              //distance to next obstacle 
+        this.dtno                                              //distance to next obstacle
         this.hono                                           //hight of next obstacle
         this.tadpolebrain = new NeuralNetwork(4, 1, [4])
         this.color = [random(255), random(255), random(255)]
@@ -324,8 +324,8 @@ class Tadpole {
     }
     //collision detection
     touching(pipe) {
-        if(this.y + tadpolesize >= height || 
-        this.y - tadpolesize <= 0 || 
+        if(this.y + tadpolesize >= height ||
+        this.y - tadpolesize <= 0 ||
         (this.x >= pipe.x - HpipeWidth && this.x <= pipe.x + HpipeWidth) && (this.y - tadpolesize <= pipe.height || this.y + tadpolesize >= pipe.height + pipeGap)) {
             return true
         }
@@ -343,7 +343,8 @@ function preload() {
 }
 
 function setup() {
-    createCanvas(dispSize, dispSize)
+    let canvas = createCanvas(dispSize, dispSize)
+    canvas.parent('graphics')
     for(let i = 0; i < tadpolecount; i++) {
         tadpoles.push(new Tadpole())
     }
@@ -370,7 +371,7 @@ function draw() {
         }
 
         if(pipes.length == 1) {
-            pipes.push(new rngPipe(dispSize))    
+            pipes.push(new rngPipe(dispSize))
             score++
         }
 

@@ -2,25 +2,52 @@
 <html>
     <head>
         <title>NeuralNet</title>
-    </head>
-    <body>
-        <h1>NeuralNet Tadpoles</h1>
-        <h2 id = "gen"></h2>
-        <h2 id = "alive"></h2>
-        <h2 id = "highscore"></h2>
-        <h2 id = "score"></h2>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/p5.js"></script>
         <script src = "FBAI.js"></script>
-        <button id = "respawn">Respawn</button>
-        <!--<form id = "changem">
-            <input type = "number" id = "mut" value = .1 autocomplete = "off" min = 0.0001 max = 100.0>
-            <input type = "submit" value = "change mutation chance as a percentage">
-        </form> fix soon-->
-        <div style = "float: bottom">
-            <button id = "slower">⏪</button>
-            <!--<button id = "playPause">⏸</button> implement later-->
-            <button id = "speed">1</button>
-            <button id = "faster">⏩</button>
+        <link href="https://fonts.googleapis.com/css?family=Noto+Sans&display=swap" rel="stylesheet">
+        <style>
+            #container {
+                font-family: 'Noto Sans', sans-serif;
+                padding-top: 30px;
+                width: 1000px;
+                height: 700px;
+
+                margin: auto;
+            }
+            #stats, #game {
+                float: left;
+            }
+            #stats {
+                margin-right: 50px;
+            }
+            #game {
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <div id = "container">
+            <div id = "stats">
+                <h1>NeuralNet Tadpoles</h1>
+                <h2 id = "gen"></h2>
+                <h2 id = "alive"></h2>
+                <h2 id = "highscore"></h2>
+                <h2 id = "score"></h2>
+            </div>
+            <!--<form id = "changem">
+                <input type = "number" id = "mut" value = .1 autocomplete = "off" min = 0.0001 max = 100.0>
+                <input type = "submit" value = "change mutation chance as a percentage">
+            </form> fix soon-->
+            <div id = "game">
+                <div id = "graphics"></div>
+                <button id = "respawn">Respawn</button>
+                <div id = "buttons" style = "float: bottom">
+                    <button id = "slower">⏪</button>
+                    <!--<button id = "playPause">⏸</button> implement later-->
+                    <button id = "speed">1</button>
+                    <button id = "faster">⏩</button>
+                </div>
+            </div>
         </div>
     </body>
 </html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Image Rec</title>
+    </head>
+    <body style="background-color: cyan;">
+        <script src = "../AiClasses/MatrixMath.js"></script>
+        <script src = "../AiClasses/NeuralNetwork.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/p5.js"></script>
+        <script src = "numrec.js"></script>
+        <h1 style="text-align: center;">Gabriel's Hand Drawn Digit Recogniser Using A Non-Convolutional Deep Feed Forward Neural Network Artifical Inteligence Pretrained for 200 Epoch Using the MNIST Training Data Set</h1><br/>
+        Using: 
+        <select id="brains">
+            <option value="0">Brain0</option>
+            <option value="1">Brain1</option>
+            <option value="2">Brain2</option>
+            <option value="3">Brain3</option>
+        </select>
+        <div>
+            <button id = "pen">Pen</button>
+            <button id = "eraser">Eraser</button>
+            <button id = "clear">Clear</button>
+            <button id = "guess">Guess</button>
+        </div>
+        <h1 id="thisis"></h1>
+        <div id="guesses" style="float: right;">
+            <h1></h1>
+            <h1></h1>
+            <h1></h1>
+            <h1></h1>
+            <h1></h1>
+            <h1></h1>
+            <h1></h1>
+            <h1></h1>
+            <h1></h1>
+            <h1></h1>
+        </div>
+    </body>
+</html>

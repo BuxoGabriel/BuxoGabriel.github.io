@@ -41,7 +41,7 @@ function nextGen() {                                    //sort tadpoles by fitne
         tadpoles[i].tadpolebrain.fitness = 0
         tadpoles[tadpolecount / 2 + i].fitness = 0
     }
-    // tadpoles.forEach((tadpole) =>{  second method implement eventually !!2 PARENTS!!
+    // tadpoles.forEach((tadpole) =>{  //second method implement eventually !!2 PARENTS!!
     //     avgfit += tadpole.fitness
     // })
     // let a = []

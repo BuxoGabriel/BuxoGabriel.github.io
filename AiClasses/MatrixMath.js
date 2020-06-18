@@ -279,4 +279,74 @@ class Matrix {
         }
         return a
     }
+    
+    //for turning an array into a vertical vector
+    static fromArray(arr) {
+        let a = new Matrix(arr.length, arr[0].length)
+        for(let i = 0; i < a.rows; i++) {
+            for(let j = 0; j < a.cols; j++) {
+                a.data[i][j] = arr[i][j]
+            }
+        }
+        return a
+    }
+
+    //for turning a vertical vector into an array
+    static toArray(mat) {
+        let a = []
+        for(let i = 0; i < mat.rows; i++) {
+            a.push(mat.data[i])
+        }
+        return a
+    }
+    
+    static shapefromArray(arr, rows, cols) {
+        let a = new Matrix(rows, cols)
+        for(let i = 0; i < a.rows; i++) {
+            for(let j = 0; j < a.cols; j++) {
+                a.data[i][j] = arr[i * cols + j]
+            }
+        }
+        return a
+    }
+    
+    static subMatrix(a, y1, y2, x1, x2) {
+        let b = new Matrix(y2 - y1 + 1, x2 - x1 + 1)
+        for(let i = y1; i <= y2; i++) {
+            for(let j = x1; j <= x2; j++) {
+                b.data[i - y1][j - x1] = a.data[i][j]
+            }
+        }
+        return b
+    }
+
+    static sum(a) {
+        let sum = 0
+        for(let i = 0; i < a.rows; i++) {
+            for(let j = 0; j < a.cols; j++) {
+                sum += a.data[i][j]
+            }
+        }
+        return sum
+    }
+
+    reshape(rows, cols) {
+        if(!(this.rows * this.cols == rows * cols)) return console.error("Must reshape such that it holds the same amount of data")
+        let a = Matrix.toArray(this)
+        this.data = []
+        for(let i = 0; i < rows; i++) {
+            this.data.push([])
+            for(let j = 0; j < cols; j++) {
+                this.data[i][j] = a[i * cols + j]
+            }
+        }
+        while(this.data.length > rows) {
+            this.data.pop()
+        }
+        this.rows = rows, this. cols = cols
+    }
+
+    // static reshape(a, rows, cols) {
+
+    // }
 }

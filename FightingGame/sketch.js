@@ -3,8 +3,8 @@
 let activeStage = "start";
 let stages = {};
 let players = []; // make it later so that there can be more players
-let g = 0.0003; // gravity is good
-let ch = 0.1; //0.1 character height is good
+const g = 0.0003; // gravity is good
+const ch = 0.1; //0.1 character height is good
 let p1;
 let p2;
 let timer;
@@ -181,6 +181,7 @@ function draw() {
     }
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function mousePressed() {
     let start = stages.start.box;                       //bottom                    top                                 left                                right
     if (activeStage === "start" && mouseY <= start.y + start.height / 2 && mouseY >= start.y - start.height / 2 && mouseX >= start.x - start.len / 2 && mouseX <= start.x + start.len / 2) {

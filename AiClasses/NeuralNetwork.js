@@ -33,7 +33,7 @@ class NeuralNetwork {
     getCost() {
         return this.cost / this.trainingRounds
     }
-    //confidence on whether or not the tadpole should jump every frame
+    
     feedforward(inputs) {
         if (inputs.length !== this.structure[0]) {
             return console.error("you must input only as many inputs as there are input nodes")
